@@ -131,8 +131,6 @@ module Teamspeak
         out.push(data)
       end
 
-      check_response_error(out)
-
       out
     end
 
@@ -159,7 +157,7 @@ module Teamspeak
     def check_response_error(response)
       id = response.first['id'] || 0
       message = response.first['msg'] || 0
-
+      puts id
       raise ServerError.new(id, message) unless id == 0
     end
 
