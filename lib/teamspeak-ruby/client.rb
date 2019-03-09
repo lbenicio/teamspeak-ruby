@@ -81,11 +81,19 @@ module Teamspeak
 
       out += cmd
 
+      masterkey = 0
       params.each_pair do |key, value|
         out += " #{key}=#{encode_param(value.to_s)}"
+        if key.to_s == 'sid'
+          masterkey = value
+        end
       end
 
       out += ' ' + options
+
+      if cmd == 'use'
+        out = 'use ' + masterkey.to_s
+      end
 
       @sock.puts out
 
@@ -130,7 +138,7 @@ module Teamspeak
 
         out.push(data)
       end
-
+      check_response_error out
       out
     end
 
